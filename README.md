@@ -3,12 +3,14 @@ worldcup
 
 The hacker's way to get worldcup scores straight!
 
+![screen shot 2014-06-18 at 11 02 25 pm](https://cloud.githubusercontent.com/assets/2038264/3323312/a12165b0-f75e-11e3-8b83-def7e2088670.png)
+
 ### Installation
 
 [Node.js](http://nodejs.org/) and [NPM](https://www.npmjs.org) are required in order to install the woldcup command.
 
 ```
-npm install mimik -g
+npm install worldcup -g
 ```
 
 The flag `-g` ensures that the worldcup command is installed and accessible globally.
