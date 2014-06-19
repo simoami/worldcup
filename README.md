@@ -24,8 +24,8 @@ worldcup
 Today's matches:
 
 Cameroon                   0 - 4                    Croatia
------------------------------------------------------------
-⚽  Played Today at 5:00 PM. Croatia won
+-----------------------------------------------------o-----
+⚽  Being played now: 74 minutes gone
 
 Spain                      0 - 2                      Chile
 -----------------------------------------------------------
