@@ -2,27 +2,23 @@
 /*jshint node:true*/
 'use strict';
 var http = require('http'),
-    program = require('commander'),
-    config = require('../package.json'),
-    moment = require('moment');
+		request = require('request'),
+		program = require('commander'),
+		config = require('../package.json'),
+		moment = require('moment');
 
 var WHITE = '\x1B[37m', GREEN = '\x1B[32m', CLEAR = '\x1B[m', SOCCER = '\u26BD';
 
 function get(category, callback) {
-    var uri = 'http://worldcup.sfg.io/matches/{category}';
-    http.get(uri.replace('{category}', category), 
-        function(res) {
-            res.on('data', function (data) {
-                try {
-                    callback(null, JSON.parse(data));
-                } catch(e) {
-                    callback(new Error('command option not supported'));
-                }
-            });
-        })
-        .on('error', function(e) {
-            callback(e.message);
-        });
+	var uri = 'http://worldcup.sfg.io/matches/'+category;
+
+	request(uri, function(err, response, body) {
+		if(!err && response.statusCode == 200) {
+			callback(null, JSON.parse(body));
+		} else {
+			callback(err);
+		}
+	});
 }
 
 function render(match) {
