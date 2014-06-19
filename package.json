@@ -1,7 +1,7 @@
 {
   "name": "worldcup",
   "version": "0.1.0",
-  "description": "Fetch worldcup scores straight from the command line",
+  "description": "Get FIFA world cup 2014 scores straight from the command line",
   "main": "bin/worldcup",
   "bin": {
     "worldcup": "bin/worldcup"
@@ -14,7 +14,9 @@
     "url": "https://github.com/simoami/worldcup"
   },
   "keywords": [
+    "FIFA",
     "worldcup",
+    "2014",
     "soccer",
     "footbul",
     "brazil",
