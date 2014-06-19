@@ -3,7 +3,7 @@ worldcup
 
 The hacker's way to get worldcup scores straight!
 
-*** Installation
+### Installation
 
 [Node.js](http://nodejs.org/) and [NPM](https://www.npmjs.org) are required in order to install the woldcup command.
 
@@ -14,7 +14,7 @@ npm install mimik -g
 The flag `-g` ensures that the worldcup command is installed and accessible globally.
 
 
-*** Command usage
+### Command usage
 
 ```
 worldcup 
@@ -35,7 +35,7 @@ Australia                  2 - 3                Netherlands
 
 ```
 
-*** Credits
+### Credits
 
 Inspired from the python version of [worldcup](https://github.com/fatiherikli/worldcup)
 
