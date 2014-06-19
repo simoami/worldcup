@@ -1,17 +1,17 @@
 {
-  "name": "worldcup",
+  "name": "nodeworldcup",
   "version": "0.1.1",
   "description": "Get FIFA world cup 2014 scores straight from the command line",
-  "main": "bin/worldcup",
+  "main": "bin/nodeworldcup",
   "bin": {
-    "worldcup": "bin/worldcup"
+    "nodeworldcup": "bin/nodeworldcup"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/simoami/worldcup"
+    "url": "https://github.com/jesusjzp/worldcup.git"
   },
   "keywords": [
     "FIFA",
@@ -24,15 +24,16 @@
     "ranking",
     "matches"
   ],
-  "author": "Simo Moujami <simo@webinventinc.com>",
+  "author": "Zhipeng Jiang <jesusjzp@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/simoami/worldcup/issues"
+    "url": "https://github.com/jesusjzp/worldcup/issues"
   },
-  "homepage": "https://github.com/simoami/worldcup",
+  "homepage": "https://github.com/jesusjzp/worldcup",
   "dependencies": {
     "commander": "^2.2.0",
     "moment": "^2.7.0",
     "request": "2.36.0"
-  }
+  },
+  "devDependencies": {}
 }
