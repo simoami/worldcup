@@ -1,0 +1,35 @@
+{
+  "name": "worldcup",
+  "version": "0.1.0",
+  "description": "Fetch worldcup scores straight from the command line",
+  "main": "bin/worldcup",
+  "bin": {
+    "worldcup": "bin/worldcup"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/simoami/worldcup"
+  },
+  "keywords": [
+    "worldcup",
+    "soccer",
+    "footbul",
+    "brazil",
+    "scores",
+    "ranking",
+    "matches"
+  ],
+  "author": "Simo Moujami <simo@webinventinc.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/simoami/worldcup/issues"
+  },
+  "homepage": "https://github.com/simoami/worldcup",
+  "dependencies": {
+    "commander": "^2.2.0",
+    "moment": "^2.7.0"
+  }
+}

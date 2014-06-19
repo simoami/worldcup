@@ -1,0 +1,122 @@
+#!/usr/bin/env node
+/*jshint node:true*/
+'use strict';
+var http = require('http'),
+    program = require('commander'),
+    config = require('../package.json'),
+    moment = require('moment');
+
+var WHITE = '\x1B[37m', GREEN = '\x1B[32m', CLEAR = '\x1B[m', SOCCER = '\u26BD';
+
+function get(category, callback) {
+    var uri = 'http://worldcup.sfg.io/matches/{category}';
+    http.get(uri.replace('{category}', category), 
+        function(res) {
+            res.on('data', function (data) {
+                try {
+                    callback(null, JSON.parse(data));
+                } catch(e) {
+                    callback(new Error('command option not supported'));
+                }
+            });
+        })
+        .on('error', function(e) {
+            callback(e.message);
+        });
+}
+
+function render(match) {
+    if(!match) {
+        return;
+    }
+    var matchDate = moment.parseZone(match.datetime),
+        now = moment();
+    var seconds = Math.floor(now.diff(matchDate) / 1000);
+    var status = seconds > 0 ? (seconds > 60 * 95 ? 'past' : 'now'): 'future';
+    var color = status in ['past', 'now'] ? GREEN : WHITE;
+    var home = match.home_team;
+    var away = match.away_team;
+    var matchStatus, matchPercentage, result;
+    if(status === 'now') {
+        matchPercentage = Math.floor(seconds / 60 / 95 * 100)
+        matchStatus = format('Being played now: {minutes} gone', { minutes: moment.duration(now.diff(matchDate)).humanize() });
+    } else if (status === 'past') {
+        matchPercentage = 100;
+        if (match.winner === 'Draw') {
+            result = 'Draw';
+        } else {
+            result = format('{winner} won', { winner: match.winner });
+            matchStatus = format('Played {time}. {result}', { time: moment(matchDate.valueOf()).calendar(), result: result}); //% (humanize.naturaltime(diff), result)
+        }
+    } else {
+        matchPercentage = 0; // future
+        matchStatus = format('Will be played {time}', {time: moment(matchDate.valueOf()).calendar() }); // %humanize.naturaltime(diff)
+    }
+    var output = color + '{home}{lpad}{homeGoals} - {awayGoals}{rpad}{away}\n{progress}\n' + CLEAR + WHITE + SOCCER + '  {status}\n\n' + CLEAR; //'\x1B[37m'
+    process.stdout.write(format(output, {
+        home: home.country,
+        homeGoals: home.goals,
+        awayGoals: away.goals,
+        away: away.country,
+        lpad: new Array(28-home.country.length).join(' '),
+        rpad: new Array(28-away.country.length).join(' '),
+        progress: progressBar(matchPercentage),
+        status: matchStatus
+    }));
+}
+
+function format(tpl, obj) {
+    return tpl.replace(/({(\w+)})/g, function() {
+        var out = obj[arguments[2]];
+        return out === null || out === 'undefined' ? '' : out;
+    });
+};
+function processCategory(category) {
+    get(category, function(err, matches) {
+        if(err) {
+            console.error('could not load remote data', err);
+            program.help();
+        }
+        switch(category) {
+            case 'current':
+                console.log('Current match:');
+                break;
+            case 'today':
+                console.log('Today\'s matches:');
+                break;
+            case 'tomorrow':
+                console.log('Tomorrow\'s matches:');
+                break;
+        }
+        console.log('');
+        if(!matches) {
+            return console.log('No planned matches.');
+        }
+        (matches).forEach(function(match) {
+            render(match);
+        });
+    });
+}
+
+function progressBar(percentage) {
+    var cursor = percentage > 0 && percentage < 100 ? 'o' : '',
+        width = 61;
+    var done = Math.floor((width - 1) * percentage / 100),
+        remaining = Math.max(width - done - 1, 0);
+    return GREEN + new Array(done).join('-') + cursor + CLEAR + WHITE + new Array(remaining).join('-') + CLEAR;
+}
+
+function init(topics) {
+    console.log('');
+    (topics.length ? topics : ['today']).forEach(processCategory);
+}
+
+////////// MAIN //////////
+program.name = config.name;
+program
+    .version('0.1.0')
+    .usage('[current] [today] [tommorow]')
+    //.option('-T, --no-tests', 'ignore test hook')
+    .parse(process.argv);
+
+init(program.args);
