@@ -1,6 +1,6 @@
 {
   "name": "worldcup",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Get FIFA world cup 2014 scores straight from the command line",
   "main": "bin/worldcup",
   "bin": {
