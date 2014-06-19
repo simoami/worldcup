@@ -1,7 +1,7 @@
 worldcup
 ========
 
-The hacker's way to get worldcup scores straight!
+The hacker's way to get worldcup scores!
 
 ![screen shot 2014-06-18 at 11 02 25 pm](https://cloud.githubusercontent.com/assets/2038264/3323312/a12165b0-f75e-11e3-8b83-def7e2088670.png)
 
