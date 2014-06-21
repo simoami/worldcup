@@ -89,10 +89,10 @@ function processCategory(category) {
                 console.log('Current match:');
                 break;
             case 'today':
-                console.log('Today\'s matches:');
+                console.log('Today’s matches:');
                 break;
             case 'tomorrow':
-                console.log('Tomorrow\'s matches:');
+                console.log('Tomorrow’s matches:');
                 break;
         }
         console.log('');
