@@ -43,9 +43,6 @@ function render(match) {
     var away = match.away_team;
     var matchStatus, matchPercentage, result;
     if(status === 'now') {
-        //matchDate = moment.parseZone(match.datetime.split('.')[0]);
-        //seconds = Math.floor(now.diff(matchDate) / 1000);
-        console.log((matchDate.valueOf() - now.valueOf()) / 60000);
         matchPercentage = Math.floor(seconds / 60 / 95 * 100);
         matchStatus = format('Being played now: {minutes} gone', { minutes: moment.duration(now.diff(matchDate)).humanize() });
     } else if (status === 'past') {
