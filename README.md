@@ -3,7 +3,7 @@ worldcup
 
 The hacker's way to get worldcup scores!
 
-![screen shot 2014-06-18 at 11 02 25 pm](https://cloud.githubusercontent.com/assets/2038264/3323312/a12165b0-f75e-11e3-8b83-def7e2088670.png)
+![screen shot 2014-06-22 at 3 06 15 pm](https://cloud.githubusercontent.com/assets/2038264/3352327/a7898e48-fa40-11e3-8826-c26de12b7ced.png)
 
 ### Installation
 
@@ -19,21 +19,24 @@ The flag `-g` ensures that the worldcup command is installed and accessible glob
 ### Command usage
 
 ```
-worldcup 
+$ worldcup today
 
-Today's matches:
+Today’s matches:
 
-Cameroon                   0 - 4                    Croatia
------------------------------------------------------o-----
-⚽  Being played now: 74 minutes gone
-
-Spain                      0 - 2                      Chile
+Belgium                    1 - 0                     Russia
 -----------------------------------------------------------
-⚽  Played Today at 3:00 PM. Chile won
+Played Today at 12:00 PM. Belgium won
 
-Australia                  2 - 3                Netherlands
+  88' ⚽  Origi                    
+
+Korea Republic             0 - 0                    Algeria
+--o--------------------------------------------------------
+Being played now: 6 minutes gone
+
+
+USA                        0 - 0                   Portugal
 -----------------------------------------------------------
-⚽  Played Today at 12:00 PM. Netherlands won
+Will be played Today at 6:00 PM
 
 ```
 
