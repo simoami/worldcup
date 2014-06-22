@@ -34,7 +34,7 @@ function render(match) {
     if(!match) {
         return;
     }
-    var matchDate = moment.parseZone(match.datetime.split('.')[0]),
+    var matchDate = moment.parseZone(match.datetime),
         now = moment();
     var seconds = Math.floor(now.diff(matchDate) / 1000);
     var status = seconds > 0 ? (seconds > 60 * 95 ? 'past' : 'now'): 'future';
