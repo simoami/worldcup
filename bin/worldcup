@@ -7,7 +7,7 @@ var http = require('http'),
     moment = require('moment'),
     sortBy = require('lodash.sortby');
 
-var WHITE = '\x1B[37m', GREEN = '\x1B[32m', CLEAR = '\x1B[m', SOCCER = '\u26BD';
+var WHITE = '\x1B[37m', GREEN = '\x1B[32m', GRAY = '\x1B[90m', CLEAR = '\x1B[m', SOCCER = '\u26BD';
 
 function get(category, callback) {
     var uri = 'http://worldcup.sfg.io/matches/{category}';
@@ -37,36 +37,40 @@ function render(match) {
     var matchDate = moment.parseZone(match.datetime),
         now = moment();
     var seconds = Math.floor(now.diff(matchDate) / 1000);
-    var status = seconds > 0 ? (seconds > 60 * 95 ? 'past' : 'now'): 'future';
-    var color = (~['past', 'now'].indexOf(status)) ? GREEN : WHITE;
+    var color = WHITE;
     var home = match.home_team;
     var away = match.away_team;
     var matchStatus, matchPercentage, result;
-    if(status === 'now') {
+    if (match.status === 'future') {
+        matchPercentage = 0; // future
+        matchStatus = format('Will be played {time}', {time: moment(matchDate.valueOf()).calendar() });
+    } else if(match.status === 'in progress') {
+        color = GREEN;
         matchPercentage = Math.floor(seconds / 60 / 95 * 100);
-        matchStatus = format('Being played now: {minutes} gone', { minutes: moment.duration(now.diff(matchDate)).humanize() });
-    } else if (status === 'past') {
+        matchStatus = format('Being played now: {minutes} minutes gone', { minutes: Math.floor(seconds / 60) });
+    } else {
+        color = GREEN;
         matchPercentage = 100;
         if (match.winner === 'Draw') {
             result = 'Draw';
         } else {
             result = format('{winner} won', { winner: match.winner });
-            matchStatus = format('Played {time}. {result}', { time: moment(matchDate.valueOf()).calendar(), result: result}); //% (humanize.naturaltime(diff), result)
+            matchStatus = format('Played {time}. {result}', { time: moment(matchDate.valueOf()).calendar(), result: result});
         }
-    } else {
-        matchPercentage = 0; // future
-        matchStatus = format('Will be played {time}', {time: moment(matchDate.valueOf()).calendar() }); // %humanize.naturaltime(diff)
     }
-    var output = color + '{home}{lpad}{homeGoals} - {awayGoals}{rpad}{away}\n{progress}\n' + CLEAR + WHITE + SOCCER + '  {status}\n\n' + CLEAR; //'\x1B[37m'
+    var output = color + '{header}\n{progress}\n' + CLEAR + '{status}\n\n{goals}\n';
+    
     process.stdout.write(format(output, {
         home: home.country,
         homeGoals: home.goals,
         awayGoals: away.goals,
         away: away.country,
+        header: renderHeader(match),
         lpad: new Array(28-home.country.length).join(' '),
         rpad: new Array(28-away.country.length).join(' '),
-        progress: progressBar(matchPercentage),
-        status: matchStatus
+        goals: GRAY + renderGoals(match) + CLEAR,
+        progress: renderProgressBar(matchPercentage),
+        status: GRAY + matchStatus + CLEAR
     }));
 }
 
@@ -113,12 +117,63 @@ function processCategory(category) {
     });
 }
 
-function progressBar(percentage) {
+function renderHeader(match) {
+    var out = '{home}{lpad}{homeGoals} - {awayGoals}{rpad}{away}',
+        home = match.home_team,
+        away = match.away_team,
+        lpad = new Array(28-home.country.length).join(' '),
+        rpad = new Array(28-away.country.length).join(' ');
+
+    return format(out, {
+        home: home.country,
+        homeGoals: home.goals,
+        awayGoals: away.goals,
+        away: away.country,
+        lpad: lpad,
+        rpad: rpad
+    });
+}
+
+function renderProgressBar(percentage) {
     var cursor = percentage > 0 && percentage < 100 ? 'o' : '',
         width = 61;
     var done = Math.floor((width - 1) * percentage / 100),
         remaining = Math.max(width - done - 1, 0);
     return GREEN + new Array(done).join('-') + cursor + CLEAR + WHITE + new Array(remaining).join('-') + CLEAR;
+}
+
+function renderGoals(match) {
+    var homeEvents = match.home_team_events,
+        awayEvents = match.away_team_events,
+        homeGoals = [],
+        awayGoals = [];
+    homeEvents.forEach(function(event) {
+        if(event.type_of_event === 'goal') {
+            homeGoals.push({
+                player: event.player,
+                time: event.time
+            });
+        }
+    });
+    awayEvents.forEach(function(event) {
+        if(event.type_of_event === 'goal') {
+            awayGoals.push({
+                player: event.player,
+                time: event.time
+            });
+        }
+    });
+    var maxGoals = Math.max(homeGoals.length, awayGoals.length);
+    var out = [], h, a, spacer;
+    for(var i = 0; i < maxGoals; i++) {
+        h = homeGoals[i];
+        h = h ? h.time + '\' ' + SOCCER + '  ' + h.player + ' ' : '';
+        a = awayGoals[i];
+        a = a ? a.time + '\' ' + SOCCER + '  ' + a.player + ' ' : '';
+        spacer = new Array(35 - (h.length + 4));
+        out.push('  ' + h + spacer.join(' ') + a + '  ');
+    }
+    return out.join('\n') + (out.length ? '\n' : '');
 }
 
 function init(topics) {
