@@ -38,7 +38,7 @@ function render(match) {
         now = moment();
     var seconds = Math.floor(now.diff(matchDate) / 1000);
     var status = seconds > 0 ? (seconds > 60 * 95 ? 'past' : 'now'): 'future';
-    var color = status in ['past', 'now'] ? GREEN : WHITE;
+    var color = (~['past', 'now'].indexOf(status)) ? GREEN : WHITE;
     var home = match.home_team;
     var away = match.away_team;
     var matchStatus, matchPercentage, result;
