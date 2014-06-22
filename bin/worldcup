@@ -4,13 +4,12 @@
 var http = require('http'),
     program = require('commander'),
     config = require('../package.json'),
-    moment = require('moment'),
-    sortBy = require('lodash.sortby');
+    moment = require('moment');
 
 var WHITE = '\x1B[37m', GREEN = '\x1B[32m', GRAY = '\x1B[90m', CLEAR = '\x1B[m', SOCCER = '\u26BD';
 
 function get(category, callback) {
-    var uri = 'http://worldcup.sfg.io/matches/{category}';
+    var uri = 'http://worldcup.sfg.io/matches/{category}?by_date=ASC';
     http.get(uri.replace('{category}', category), 
         function(res) {
             var data = '';
@@ -101,15 +100,6 @@ function processCategory(category) {
         if(!matches) {
             return console.log('No planned matches.');
         }
-
-        // Matches from worldcup.sfg.io are sorted by match number, which isn't
-        // too useful when the matches are not played in the order of their
-        // assigned match numbers. A more appropriate way of displaying the
-        // matches is in the order in which they are played. Below, the matches
-        // are sorted as such.
-        matches = sortBy(matches, function(match) {
-            return moment(match.datetime).valueOf();
-        });
 
         (matches).forEach(function(match) {
             render(match);

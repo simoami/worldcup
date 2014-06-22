@@ -32,7 +32,6 @@
   "homepage": "https://github.com/simoami/worldcup",
   "dependencies": {
     "commander": "^2.2.0",
-    "lodash.sortby": "^2.4.1",
     "moment": "^2.7.0"
   }
 }
