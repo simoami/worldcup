@@ -40,6 +40,42 @@ Will be played Today at 6:00 PM
 
 ```
 
+```
+$ worldcup current
+
+Current match:
+
+Korea Republic             0 - 0                    Algeria
+-----o-----------------------------------------------------
+Being played now: 10 minutes gone
+
+```
+
+```
+$ worldcup tomorrow
+
+Tomorrow’s matches:
+
+Australia                  0 - 0                      Spain
+-----------------------------------------------------------
+Will be played Tomorrow at 12:00 PM
+
+
+Netherlands                0 - 0                      Chile
+-----------------------------------------------------------
+Will be played Tomorrow at 12:00 PM
+
+
+Cameroon                   0 - 0                     Brazil
+-----------------------------------------------------------
+Will be played Tomorrow at 4:00 PM
+
+
+Croatia                    0 - 0                     Mexico
+-----------------------------------------------------------
+Will be played Tomorrow at 4:00 PM
+```
+
 ### Credits
 
 Inspired from the python version of [worldcup](https://github.com/fatiherikli/worldcup)
